@@ -1,0 +1,35 @@
+# docker-compose.yml
+
+version: '3'
+
+services:
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_DB=happyornot_db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=011258
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  web:
+    build: .
+    working_dir: /home/meztroinhinyeroelektronico/Desktop/django_prj/happyornot_prj/
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/home/meztroinhinyeroelektronico/Desktop/django_prj/happyornot_prj/
+    command: sh -c "python3.10 manage.py runserver 0.0.0.0:8000"
+    depends_on:
+      - db 
+    environment:
+      DB_NAME: happyornot_db
+      DB_USER: postgres
+      DB_PASSWORD: 011258
+      DB_HOST: db
+      DB_PORT: 5432
+
+volumes:
+  pg_data:

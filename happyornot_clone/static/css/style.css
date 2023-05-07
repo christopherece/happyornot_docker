@@ -1,0 +1,17 @@
+.emoji-ratings {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1em;
+  }
+  .emoji-ratings label {
+    font-size: 5em;
+    cursor: pointer;
+    user-select: none;
+  }
+  .emoji-ratings input[type="radio"] {
+    display: none;
+  }
+  .emoji-ratings input[type="radio"]:checked+label {
+    color: orange;
+  }
+  

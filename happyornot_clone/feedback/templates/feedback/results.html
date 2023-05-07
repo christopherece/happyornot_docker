@@ -1,0 +1,14 @@
+
+{% extends 'base.html' %}
+{% load emoji %}
+
+{% block content %}
+  <h1>Feedback Results</h1>
+  <p>Total feedback entries: {{ feedback_counts }}</p>
+  <ul>
+    {% for rating in feedback_ratings %}
+     
+    <li>{{ rating.rating }} - {{ rating.rating|emoji }}</li>
+    {% endfor %}
+  </ul>
+{% endblock %}
