@@ -11,7 +11,13 @@ $(document).ready(function() {
         var comment = $('#comment').val();
         var rating = $('input[name="rating"]:checked').val();
 
+        // Check if input fields are empty
+        if(user === '' || comment === '' || rating === undefined){
+            alert("Please fill all the fields");
+            return false;
+        }
         console.log(user, comment, rating); // Add this line to log the form data to the console
+        
 
         $.ajax({
             beforeSend: function(xhr, settings) {
@@ -30,10 +36,12 @@ $(document).ready(function() {
             dataType: 'json',
             success: function(response) {
                 console.log(response.message)
-                $('#textNotification').text(response.success_message).addClass('success').fadeIn();
+                $('#textNotification').text(response.success_message).addClass('alert alert-success').fadeIn();
                 $('#notification').attr('src', response.success_image);
                 $('#myForm').find("input[type=text], textarea").val(""); // clear the input fieldsgit
                 $('#myForm').hide();
+
+        
 
 
                 setTimeout(function() {

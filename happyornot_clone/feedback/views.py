@@ -20,6 +20,8 @@ def save_feedback(request):
                  'success': True,
                  'success_message': 'Feedback saved successfully!',
                  'success_image': '/static/img/thumbsup.gif',
+                 'success_class': 'alert alert-success',
+                 
              }
             return JsonResponse(context)
         else:
