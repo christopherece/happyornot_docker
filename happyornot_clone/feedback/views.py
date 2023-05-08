@@ -1,25 +1,56 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from .forms import FeedbackForm
 from .models import Feedback
+import json
+
+
 
 def feedback_form(request):
-    if request.method == 'POST':
-        user = request.POST['user']
-        comment = request.POST['comment']
-        rating_str = (request.POST['rating'])
-        if rating_str and rating_str.isdigit():
-            rating = int(rating_str)
-        else:
-            rating = 0
-        Feedback.objects.create(user=user, comment=comment, rating=rating)
-        # return redirect('feedback_results')
-        return render(request, 'feedback/form.html', {'form_submitted':True})
-    else:
-        return render(request, 'feedback/form.html')
+    return render(request, 'feedback/form.html')
 
-# def submit(request):
-#     user = request.POST.getlist('user')
+@csrf_exempt
+def save_feedback(request):
+    if request.method == 'POST':
+        form = FeedbackForm(request.POST)
+        if form.is_valid():
+            form.save()
+            context = {
+                 'success': True,
+                 'success_message': 'Feedback saved successfully!',
+                 'success_image': '/static/img/thumbsup.gif',
+             }
+            return JsonResponse(context)
+        else:
+            return JsonResponse({'success': False, 'errors': form.errors})
+    else:
+        form = FeedbackForm()
+    return render(request, 'feedback/form.html', {'form': form})
+
+
+# def save_feedback(request):
+#     if request.method == 'POST':
+#         form = FeedbackForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             context = {
+#                 'success': True,
+#                 'success_message': 'Feedback saved successfully!',
+#                 'success_image': '/static/img/thumbsup.gif',
+#             }
+#         else:
+#             context = {
+#                 'form': form,
+#             }
+#     else:
+#         context = {
+#             'form': FeedbackForm(),
+#         }
+
+#     return render(request, 'feedback/form.html', context)
 
 def feedback_results(request):
     feedback_counts = Feedback.objects.count()
     feedback_ratings = Feedback.objects.values('rating')
-    return render(request, 'feedback/results.html', {'feedback_counts': feedback_counts, 'feedback_ratings': feedback_ratings})
+    return render(request, 'feedback/form.html', {'feedback_counts': feedback_counts, 'feedback_ratings': feedback_ratings, 'form_submitted':True})

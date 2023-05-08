@@ -78,10 +78,10 @@ WSGI_APPLICATION = 'happyornot_clone.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'happyornot_db',
+        'NAME': 'happyornot_tbl',
         'USER': 'postgres',
         'PASSWORD': '011258',
-        'HOST':'192.168.10.55',
+        'HOST':'127.0.0.1',
         'PORT': '5432',
     }
 }

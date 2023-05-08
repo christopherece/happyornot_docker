@@ -5,8 +5,17 @@
 {% block title %}HappyOrNot{% endblock %}
 
 {% block content %}
-    <h1>How was your experience?</h1>
-    <form method="post">
+
+    <div class="titleHead" style="text-align: center">
+        <h1>How was your experience?</h1>
+        <div class="container" id="myStatus">
+            <img id="notification" src="{% static 'img/thumbsup.gif' %}" alt="">
+            <h2>Thank you for your Feedback!!!</h2>
+        </div>
+    </div>
+    <div class="container" style="padding: 50px;">
+
+    <form id="myForm" method="post">
         {% csrf_token %}
         <div class="form-group">
             <label for="user">Name:</label>
@@ -20,33 +29,54 @@
             <label for="rating">Rating:</label>
                 <div class="rating-container emoji-ratings">
                     <div class="form-check">
-                        <input class="form-check-input" type="submit" name="rating" id="rating1" value="1">
-                        <label class="form-check-label" for="rating1">🙁</label>
+                        <input class="form-check-input" type="submit" name="rating" id="rating1" value="1" hidden>
+                        <label class="form-check-label" for="rating1">😞</label>
                     </div>
 
                     <div class="form-check">
-                        <input class="form-check-input" type="submit" name="rating" id="rating2" value="2">
+                        <input class="form-check-input" type="submit" name="rating" id="rating2" value="2" hidden>
                         <label class="form-check-label" for="rating2">🙁</label>
                     </div>
 
                     <div class="form-check">
-                        <input  class="form-check-input" type="submit" name="rating" id="rating3" value="3">
+                        <input  class="form-check-input" type="submit" name="rating" id="rating3" value="3" hidden>
                         <label class="form-check-label" for="rating3">😐</label>
                     </div>
 
                     <div class="form-check">
-                        <input class="form-check-input" type="submit" name="rating" id="rating4" value="4">
+                        <input class="form-check-input" type="submit" name="rating" id="rating4" value="4" hidden>
                         <label class="form-check-label" for="rating4">🙂</label>
                     </div>
 
                     <div class="form-check">
-                        <input class="form-check-input" type="submit" name="rating" id="rating5" value="5">
+                        <input class="form-check-input" type="submit" name="rating" id="rating5" value="5" hidden>
                         <label class="form-check-label" for="rating5">😀</label>
                     </div>
                 </div>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        {% comment %} <button type="submit" class="btn btn-primary">Submit</button> {% endcomment %}
     </form>
+</div>
+
+
+    {% if form_submitted %}
+        <script>
+            document.getElementById("myForm").addEventListener("submit", function(event) {
+                event.preventDefault(); // prevent the form from submitting normally
+                document.getElementById("myStatus").style.display = "block"; // show the image
+                document.getElementById("myForm").style.display = "none"
+                document.getElementById("myForm").reset();
+
+                
+                setTimeout(function() {
+                  document.getElementById("myStatus").style.display = "none"; // hide the image after 10 seconds
+                  document.getElementById("myForm").style.display = "block"
+
+                }, 5000);
+                // Now you can submit the form using AJAX or any other method
+              });
+        </script>
+    {% endif %}
     {% if feedback %}
         <h2>Feedback:</h2>
         {% for f in feedback %}
@@ -65,6 +95,26 @@
 
 {% block extra_css %}
     <style>
+
+          
+        .form-check:hover {
+            transform: scale(1.2)
+        }
+
+        .form-check label {
+            transition: transform 0.5s ease-in-out;
+            max-width: 100%;
+            height: auto;        
+        }
+
+        img#status {
+            margin-right: 10px;
+          }
+
+        h2 {
+            margin-left: 10px;
+          }
+          
         .rating-container {
             display: flex;
             flex-direction: row;
