@@ -1,5 +1,5 @@
 const date = new Date();
-document.querySelector('.year').innerHTML = date.getFullYear
+document.querySelector('.year').innerHTML = date.getFullYear();
 
 $(document).ready(function() {
 
@@ -15,7 +15,7 @@ $(document).ready(function() {
         var rating = $('input[name="rating"]:checked').val();
 
         // Check if input fields are empty
-        if(user === '' || comment === '' || rating === undefined){
+        if(user === '' || comment === '' || rating === 'undefined'){
             alert("Please fill all the fields");
             return false;
         }
@@ -48,7 +48,7 @@ $(document).ready(function() {
 
 
                 setTimeout(function() {
-                    $('#notification').fadeOut().removeClass('success');
+                    $('#notification').attr('src', '');
                     $('#textNotification').fadeOut().removeClass('success');
                     $('#myForm').show();
 
