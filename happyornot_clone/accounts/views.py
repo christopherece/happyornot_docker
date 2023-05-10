@@ -35,6 +35,8 @@ def dashboard(request):
     return render(request, 'accounts/dashboard.html')
 
 def feedback_count(request):
-    feedback_counts = Feedback.objects.values('rating').annotate(total=Count('rating'))
+    feedback_counts = Feedback.objects.values('rating').annotate(total=Count('rating')).order_by('rating')
     return JsonResponse(list(feedback_counts), safe=False)
 
+def excellent_feedback(request):
+    return render(request, 'accounts/excellent_feedback.html')
