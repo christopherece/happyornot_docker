@@ -33,6 +33,8 @@ ALLOWED_HOSTS = ['192.168.10.55','127.0.0.1','localhost']
 
 INSTALLED_APPS = [
     'feedback.apps.FeedbackConfig',
+    'speaker.apps.SpeakerConfig',
+    'trainingtitle.apps.TrainingtitleConfig',
     'accounts.apps.AccountsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -79,7 +81,7 @@ WSGI_APPLICATION = 'happyornot_clone.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'happyornot_tbl',
+        'NAME': 'survey_tbl',
         'USER': 'postgres',
         'PASSWORD': '011258',
         'HOST':'127.0.0.1',
@@ -137,3 +139,7 @@ from django.contrib.messages import constants as messages
 MESSAGE_TAGS = {
     messages.ERROR: 'danger'
 }
+
+# Media Folder Settings
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'

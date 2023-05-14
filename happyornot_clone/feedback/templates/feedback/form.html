@@ -2,7 +2,7 @@
 {% load emoji %}
 {% load static %}
 
-{% block title %}HappyOrNot{% endblock %}
+{% block title %}Rate Our Service{% endblock %}
 
 {% block content %}
 <div class="text-align:center">
@@ -16,53 +16,124 @@
    
 
     <div class="container" style="padding: 50px;">
-    <form id="myForm">
-        {% csrf_token %}
-        <div class="form-group">
-            <label for="user">Name:</label>
-            <input type="text" id="user" name="user" class="form-control">
-        </div>
-        <div class="form-group">
-            <label for="comment">Comment:</label>
-            <textarea id="comment" name="comment" class="form-control"></textarea>
-        </div>
-        <div class="form-group">
-            <label for="rating">Rating:</label>
-                <div class="rating-container emoji-ratings">
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="rating" id="rating1" value="Bad" >
-                        <label class="form-check-label" for="rating1">😞</label>
-                    </div>
+        <form id="myForm">
+            {% csrf_token %}
+            <input type="hidden" name="user_id" id="user" value="{{request.user.id}}">
 
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="rating" id="rating2" value="Poor" >
-                        <label class="form-check-label" for="rating2">🙁</label>
-                    </div>
+            <div class="form-group">
+                <label for="user">Name:</label>
+                <input type="text" id="rater" name="rater" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="comment">Comment:</label>
+                <textarea id="comment" name="comment" class="form-control"></textarea>
 
-                    <div class="form-check">
-                        <input  class="form-check-input" type="radio" name="rating" id="rating3" value="Average" >
-                        <label class="form-check-label" for="rating3">😐</label>
-                    </div>
+            </div>
+            <div class="form-group">
+                <label for="rating">Rating:</label>
+                <br>
+                    <div class="rating-container emoji-ratings">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="rating" id="rating1" value="Bad" >
+                            <label class="form-check-label" for="rating1" title="Bad">😞</label>
+                        </div>
 
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="rating" id="rating4" value="Good" >
-                        <label class="form-check-label" for="rating4">🙂</label>
-                    </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="rating" id="rating2" value="Poor" >
+                            <label class="form-check-label" for="rating2" title="Poor">🙁</label>
+                        </div>
 
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="rating" id="rating5" value="Excellent" >
-                        <label class="form-check-label" for="rating5">😀</label>
+                        <div class="form-check">
+                            <input  class="form-check-input" type="radio" name="rating" id="rating3" value="Average" >
+                            <label class="form-check-label" for="rating3" title="Average">😐</label>
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="rating" id="rating4" value="Good" >
+                            <label class="form-check-label" for="rating4" title="Good">🙂</label>
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="rating" id="rating5" value="Excellent" >
+                            <label class="form-check-label" for="rating5" title="Excellent">😀</label>
+                        </div>
                     </div>
-                </div>
-        </div>
-        <button type="submit" class="btn btn-primary" hidden>Submit</button>
-    </form>
-</div>
+            </div>
+            <button type="submit" class="btn btn-primary" hidden>Submit</button>
+        </form>
+    </div>
 {% endblock %}
 
 {% block extra_css %}
     <style>
 
+        /* Add CSS styles to label elements */
+        label[for="rating1"]:hover::after,
+        label[for="rating2"]:hover::after,
+        label[for="rating3"]:hover::after,
+        label[for="rating4"]:hover::after,
+        label[for="rating5"]:hover::after {
+            content: attr(title); /* Display the tooltip text */
+            position: absolute; /* Position the tooltip */
+            background-color: yellow; /* Set the background color of the tooltip */
+            color: #000; /* Set the text color of the tooltip */
+            font-size: 12px; /* Set the font size of the tooltip */
+            padding: 5px; /* Add padding to the tooltip */
+            z-index: 1; /* Set the z-index of the tooltip */
+            border-radius: 5px; /* Add rounded corners to the tooltip */
+        }
+
+        /* Hide the tooltip text by default */
+        label[for="rating1"]::after,
+        label[for="rating2"]::after,
+        label[for="rating3"]::after,
+        label[for="rating4"]::after,
+        label[for="rating5"]::after {
+            content: "";
+            display: none;
+        }
+
+        /* Show the tooltip text on hover */
+        label[for="rating1"]:hover::after {
+            display: inline-block;
+            background-color: red;
+        }
+        label[for="rating2"]:hover::after {
+            display: inline-block;
+            background-color: orange;
+        }
+        label[for="rating3"]:hover::after {
+            display: inline-block;
+            background-color: yellow;
+        }
+        label[for="rating4"]:hover::after {
+            display: inline-block;
+            background-color: #90EE90;
+        }
+        label[for="rating5"]:hover::after {
+            display: inline-block;
+            background-color: green;
+            color: white;
+        }
+        .emoji-ratings {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1em;
+        }
+        .emoji-ratings label {
+            font-size: 8em;
+            cursor: pointer;
+            user-select: none;
+        }
+        .emoji-ratings input[type="radio"] {
+            display: none;
+        }
+        .emoji-ratings input[type="radio"]:checked+label {
+            color: orange;
+        }
+
+
+       
           
         .form-check:hover {
             transform: scale(1.2)
