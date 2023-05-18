@@ -3,12 +3,36 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .forms import FeedbackForm
 from .models import Feedback
+from speaker.models import Speaker
+from trainingtitle.models import Trainingtitle
 import json
 
 
 
+
 def feedback_form(request):
-    return render(request, 'feedback/form.html')
+    speakers = Speaker.objects.all()
+    trainingtitles = Trainingtitle.objects.all()
+
+    context = {
+        'speakers': speakers,
+        'trainingtitles': trainingtitles
+    }
+    return render(request, 'feedback/form.html', context)
+
+def speaker_training_dropdown(request):
+    speakers = Speaker.objects.all()
+    training_titles = Trainingtitle.objects.all()
+    context = {'speakers': speakers, 'training_titles': training_titles}
+    return render(request, 'speaker_training_dropdown.html', context)
+
+def get_training_titles(request):
+    speaker_id = request.GET.get('speaker_id')
+    print(speaker_id)
+    training_titles = Trainingtitle.objects.filter(speaker_id=speaker_id).order_by('title')
+    print(training_titles)
+    training_title_list = [{'id': title.id, 'title': title.title} for title in training_titles]
+    return JsonResponse(training_title_list, safe=False)
 
 @csrf_exempt
 def save_feedback(request):

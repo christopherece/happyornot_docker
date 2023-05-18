@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages, auth
 from django.contrib.auth.decorators import login_required
 from feedback.models import Feedback
+from speaker.models import Speaker
 from django.db.models import Count
 from django.views.decorators.csrf import csrf_exempt
 
@@ -47,21 +48,22 @@ def feedback_count(request):
     ratings = ['Excellent', 'Good', 'Average', 'Poor', 'Bad']
     data = []
     for rating in ratings:
-        feedbacks = Feedback.objects.filter(rating=rating, trainingtitle='1')
+        feedbacks = Feedback.objects.filter(rating=rating)
         count = feedbacks.count()
+        
         data.append({'rating': rating, 'total': count})
 
     return JsonResponse(data, safe=False)
 
 @login_required
 def feedback_detail(request):
-    user = request.GET.get('user', '')
+    speaker = request.GET.get('speaker', '')
     comment = request.GET.get('comment', '')
     rating = request.GET.get('rating', '')
     feedback_date = request.GET.get('date', '')
 
     context = {
-        'user': user,
+        'speaker': speaker,
         'comment': comment,
         'rating': rating,
         'feedback_date': feedback_date
@@ -70,7 +72,8 @@ def feedback_detail(request):
 
 @login_required
 def excellent_feedback(request):
-    feedbacks = Feedback.objects.filter(rating='Excellent',user=request.user)
+    print(request)
+    feedbacks = Feedback.objects.filter(rating='Excellent')
     return render(request, 'accounts/excellent_feedback.html', {'feedbacks': feedbacks})
 
 @login_required

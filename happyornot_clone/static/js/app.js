@@ -1,6 +1,30 @@
 const date = new Date();
 document.querySelector('.year').innerHTML = date.getFullYear();
 
+
+$(document).ready(function() {
+    $('#speaker').change(function() {
+      var speakerId = $(this).val();
+      console.log(speakerId)
+      $.ajax({
+        url: '/get-training-titles/',
+        data: {
+          'speaker_id': speakerId
+        },
+        dataType: 'json',
+        success: function(data) {
+            console.log(data)
+          var options = '<option value="">Select a Training Title</option>';
+          for (var i = 0; i < data.length; i++) {
+            options += '<option value="' + data[i].id + '">' + data[i].title + '</option>';
+          }
+          $('#training-title').html(options);
+        }
+      });
+    });
+  });
+
+
 $(document).ready(function() {
 
     $('#myForm input[type=radio]').click(function() {
@@ -13,14 +37,16 @@ $(document).ready(function() {
         var rater = $('#rater').val();
         var comment = $('#comment').val();
         var rating = $('input[name="rating"]:checked').val();
-        var user = $('#user').val();
-        console.log(user)
+        var speaker = $('#speaker').val();
+        var trainingtitle = $('#training-title').val();
+
+        console.log(speaker)
         // Check if input fields are empty
-        if(rater === '' || comment === ''  || rating === 'undefined'){
+        if(rater === '' || comment === '' || speaker === '' || trainingtitle === '' || rating === 'undefined'){
             alert("Please fill all the fields");
             return false;
         }
-        console.log(rater, comment, rating, user); // Add this line to log the form data to the console
+        console.log(rater, comment, rating, speaker, trainingtitle); // Add this line to log the form data to the console
         
 
         $.ajax({
@@ -30,10 +56,11 @@ $(document).ready(function() {
             url: '/save-feedback/',
             type: 'POST',
             data: { 
-                'user': user,
+                'speaker': speaker,
                 'rater':rater,
                 'comment': comment,
                 'rating': rating,
+                'trainingtitle': trainingtitle,
                 'csrfmiddlewaretoken': '{{ csrf_token }}' // Include the CSRF token in the data
             },
             processData: true,
@@ -42,16 +69,15 @@ $(document).ready(function() {
             success: function(response) {
                 $('#textNotification').text(response.success_message).addClass('alert alert-success').fadeIn();
                 $('#notification').attr('src', response.success_image);
-                $('#myForm').find("input[type=text], textarea").val(""); // clear the input fieldsgit
                 $('#myForm').hide();
 
-        
-
-
                 setTimeout(function() {
-                    $('#notification').attr('src', '');
-                    $('#textNotification').fadeOut().removeClass('success');
-                    $('#myForm').show();
+                  $('#myForm').find("input[type=text], textarea").val(""); // clear the input fieldsgit
+                  $('#speaker').val(""); // clear the input fieldsgit
+                  $('#training-title').val(""); // clear the input fieldsgit
+                  $('#notification').attr('src', '');
+                  $('#textNotification').fadeOut().removeClass('success');
+                  $('#myForm').show();
 
 
                 }, 5000);

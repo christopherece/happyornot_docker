@@ -4,4 +4,4 @@ from .models import Feedback
 class FeedbackForm(forms.ModelForm):
     class Meta:
         model = Feedback
-        fields = ('rater', 'comment', 'rating','user')
+        fields = ('rater', 'comment', 'rating', 'speaker','trainingtitle')

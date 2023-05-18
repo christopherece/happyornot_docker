@@ -9,7 +9,7 @@ class FeedbackAdmin(admin.ModelAdmin):
         'comment',
         'rating',
         'feedback_date',
-        'user',
+        'speaker',
         'trainingtitle',
     )
     list_display_links = ('id', 'rater')
