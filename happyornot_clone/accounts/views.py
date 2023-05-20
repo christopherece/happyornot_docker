@@ -32,18 +32,19 @@ def login(request):
     else:
         return render(request, 'accounts/dashboard.html')
 
+@login_required(login_url='login')
 def logout(request):
     if request.method == 'POST':
         auth.logout(request)
         messages.success(request, 'You are now Logged Out!')
     return redirect(request, 'accounts/login.html')
 
-@login_required
+@login_required(login_url='login')
 def dashboard(request):
 
     return render(request, 'accounts/dashboard.html')
 
-@login_required
+@login_required(login_url='login')
 def feedback_count(request):
     ratings = ['Excellent', 'Good', 'Average', 'Poor', 'Bad']
     data = []
@@ -55,7 +56,7 @@ def feedback_count(request):
 
     return JsonResponse(data, safe=False)
 
-@login_required
+@login_required(login_url='login')
 def feedback_detail(request):
     speaker = request.GET.get('speaker', '')
     comment = request.GET.get('comment', '')
@@ -70,28 +71,28 @@ def feedback_detail(request):
     }
     return render(request, 'feedback_detail.html', context)
 
-@login_required
+@login_required(login_url='login')
 def excellent_feedback(request):
     print(request)
     feedbacks = Feedback.objects.filter(rating='Excellent')
     return render(request, 'accounts/excellent_feedback.html', {'feedbacks': feedbacks})
 
-@login_required
+@login_required(login_url='login')
 def good_feedback(request):
     feedbacks = Feedback.objects.filter(rating='Good')
     return render(request, 'accounts/good_feedback.html', {'feedbacks': feedbacks})
 
-@login_required
+@login_required(login_url='login')
 def average_feedback(request):
     feedbacks = Feedback.objects.filter(rating='Average')
     return render(request, 'accounts/average_feedback.html', {'feedbacks': feedbacks})
 
-@login_required
+@login_required(login_url='login')
 def poor_feedback(request):
     feedbacks = Feedback.objects.filter(rating='Poor')
     return render(request, 'accounts/poor_feedback.html', {'feedbacks': feedbacks})
 
-@login_required
+@login_required(login_url='login')
 def bad_feedback(request):
     feedbacks = Feedback.objects.filter(rating='Bad')
     return render(request, 'accounts/bad_feedback.html', {'feedbacks': feedbacks})
