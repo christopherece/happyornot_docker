@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-5u)(-!fb-ld_h!(90!sk(^@2di3l8-9!g-5(8-6-5#hn9o+&92
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['survey.balaydalakay.com','192.168.10.55','127.0.0.1','localhost','192.168.10.152']
+ALLOWED_HOSTS = ['survey.balaydalakay.com','192.168.10.55','127.0.0.1','localhost','192.168.10.135']
 CSRF_TRUSTED_ORIGINS = [
     'https://survey.balaydalakay.com'
 ]
@@ -87,8 +87,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'survey_tbl',
         'USER': 'postgres',
-        'PASSWORD': '011258',
-        'HOST':'192.168.10.116',
+        'PASSWORD': '!pass1234',
+        'HOST':'192.168.10.225',
         'PORT': '5432',
     }
 }

@@ -1,11 +1,17 @@
-# base iamage
-FROM python:3.10.6
-#set up environment variable
-ENV PYTHONUNBUFFERE 1
-WORKDIR /home/meztroinhinyeroelektronico/Desktop/django_prj/happyornot_prj/
-COPY requirements.txt requirements.txt
+FROM python:3.9
+
+# Install PostgreSQL client libraries
+RUN apt-get update && apt-get install -y libpq-dev
+
+WORKDIR /home/meztroinhinyero/django/happyornot_docker/happyornot_clone
+
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-CMD ["python3", "manage.py", "runserver", "127.0.0.1:8000"]
+ENV DATABASE_HOST=192.168.10.225
+
+EXPOSE 8080
+
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8080"]
