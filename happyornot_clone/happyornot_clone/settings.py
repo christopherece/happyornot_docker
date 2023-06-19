@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-5u)(-!fb-ld_h!(90!sk(^@2di3l8-9!g-5(8-6-5#hn9o+&92
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['survey.balaydalakay.com','192.168.10.55','127.0.0.1','localhost','192.168.10.152','rateourservice.balaydalakay.com']
+ALLOWED_HOSTS = ['192.168.10.55','127.0.0.1','localhost','192.168.10.152','rateourservice.balaydalakay.com']
 CSRF_TRUSTED_ORIGINS = [
     'https://rateourservice.balaydalakay.com','http://rateourservice.balaydalakay.com'
 ]
