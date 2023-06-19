@@ -28,7 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['survey.balaydalakay.com','192.168.10.55','127.0.0.1','localhost','192.168.10.152']
 CSRF_TRUSTED_ORIGINS = [
-    'https://survey.balaydalakay.com'
+    'https://rateourservice.balaydalakay.com','http://rateourservice.balaydalakay.com'
 ]
 
 
