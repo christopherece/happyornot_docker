@@ -24,20 +24,19 @@ def login(request):
 
         if user is not None:
             auth.login(request, user)
-            messages.success(request, 'You are now login!')
+            # messages.success(request, 'You are now login!')
             return redirect('dashboard')
         else:
             messages.error(request, 'Invalid Credentials! Try Again!')
             return redirect('login')
     else:
-        return render(request, 'accounts/dashboard.html')
+        return render(request, 'accounts/login.html')
 
-@login_required(login_url='login')
 def logout(request):
     if request.method == 'POST':
         auth.logout(request)
         messages.success(request, 'You are now Logged Out!')
-    return redirect(request, 'accounts/login.html')
+    return render('feedback_form')
 
 @login_required(login_url='login')
 def dashboard(request):
